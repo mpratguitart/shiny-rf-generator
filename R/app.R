@@ -145,7 +145,7 @@ app_css <- "
   body { background: #faf5ed; font-family: 'Helvetica Neue', Arial, sans-serif; color: #1e3a28; }
   .app-container { max-width: 1000px; margin: 0 auto; padding: 20px; }
   .hdr { background: #1e3a28; color: #faf5ed; padding: 16px 20px; border-radius: 6px; margin-bottom: 12px; }
-  .hdr input[type='text'] { background: #fff; border: 1px solid #4a5c4e; border-radius: 4px; padding: 8px; }
+  .hdr input[type='text'] { background: #fff; color: #1e3a28; border: 1px solid #4a5c4e; border-radius: 4px; padding: 8px; }
   .crumb { font-family: 'Courier New', monospace; font-size: 12px; text-align: right; padding-top: 8px; }
   .crumb .done { color: #c9b88a; }
   .crumb .active { color: #faf5ed; font-weight: 600; }
