@@ -93,10 +93,13 @@ counties_sf <- sf::st_read(here::here("data", "tl_2024_western_counties.gpkg"), 
 # If ≥50% of AOI counties are in CA, variant = "CA"; otherwise "CR".
 ca_county_geoids <- readRDS(here::here("data", "ca_counties.rds"))$GEOID
 
-# Forest type and structure class lookup — loaded from S3 (~3KB).
+# Forest type and structure class lookup (~3KB).
+# Read from the local copy in data/, which is byte-identical to the S3 object
+# (S3_ALL_VARS). Reading locally removes an S3 round-trip from app startup, so
+# the app launches even when the user's environment has no/invalid AWS creds.
 # Used as global fallback for filter checkboxes; the actual choices are
 # narrowed to AOI-specific values when freq_table is available.
-all_vars_codes <- s3_read_rds(S3_ALL_VARS)
+all_vars_codes <- readRDS(here::here("data", "all_vars_codes.rds"))
 
 forest_types <- all_vars_codes |>
   dplyr::filter(variable == "ForTyp") |>
@@ -127,7 +130,7 @@ mock_species <- c("Pinus ponderosa (PP)", "Pseudotsuga menziesii (DF)",
 # =============================================================================
 # All visual styling lives here. Edit this string to change the look and feel.
 #
-# Key classes for Alister:
+# Key classes:
 #   .app-container — outer wrapper, controls max-width and centering
 #   .hdr           — dark green persistent header bar
 #   .crumb         — breadcrumb text (monospace); .done/.active/.todo for states
