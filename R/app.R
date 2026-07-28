@@ -93,10 +93,13 @@ counties_sf <- sf::st_read(here::here("data", "tl_2024_western_counties.gpkg"), 
 # If ≥50% of AOI counties are in CA, variant = "CA"; otherwise "CR".
 ca_county_geoids <- readRDS(here::here("data", "ca_counties.rds"))$GEOID
 
-# Forest type and structure class lookup — loaded from S3 (~3KB).
+# Forest type and structure class lookup (~3KB).
+# Read from the local copy in data/, which is byte-identical to the S3 object
+# (S3_ALL_VARS). Reading locally removes an S3 round-trip from app startup, so
+# the app launches even when the user's environment has no/invalid AWS creds.
 # Used as global fallback for filter checkboxes; the actual choices are
 # narrowed to AOI-specific values when freq_table is available.
-all_vars_codes <- s3_read_rds(S3_ALL_VARS)
+all_vars_codes <- readRDS(here::here("data", "all_vars_codes.rds"))
 
 forest_types <- all_vars_codes |>
   dplyr::filter(variable == "ForTyp") |>
@@ -127,7 +130,7 @@ mock_species <- c("Pinus ponderosa (PP)", "Pseudotsuga menziesii (DF)",
 # =============================================================================
 # All visual styling lives here. Edit this string to change the look and feel.
 #
-# Key classes for Alister:
+# Key classes:
 #   .app-container — outer wrapper, controls max-width and centering
 #   .hdr           — dark green persistent header bar
 #   .crumb         — breadcrumb text (monospace); .done/.active/.todo for states
@@ -145,7 +148,7 @@ app_css <- "
   body { background: #faf5ed; font-family: 'Helvetica Neue', Arial, sans-serif; color: #1e3a28; }
   .app-container { max-width: 1000px; margin: 0 auto; padding: 20px; }
   .hdr { background: #1e3a28; color: #faf5ed; padding: 16px 20px; border-radius: 6px; margin-bottom: 12px; }
-  .hdr input[type='text'] { background: #fff; border: 1px solid #4a5c4e; border-radius: 4px; padding: 8px; }
+  .hdr input[type='text'] { background: #fff; color: #1e3a28; border: 1px solid #4a5c4e; border-radius: 4px; padding: 8px; }
   .crumb { font-family: 'Courier New', monospace; font-size: 12px; text-align: right; padding-top: 8px; }
   .crumb .done { color: #c9b88a; }
   .crumb .active { color: #faf5ed; font-weight: 600; }
