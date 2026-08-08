@@ -1,0 +1,6 @@
+"Column","Label","Importance","Effect","Min","Max"
+"Stratum_1_Crown_Cover","Canopy cover",5,"Positive",NA,NA
+"Stratum_2_Crown_Cover","Understory canopy cover",1,"Negative",NA,NA
+"Surface_Shrub","Surface shrub cover",4,"Negative",NA,NA
+"Surface_Litter","Surface litter",3,"Positive",NA,NA
+"Soft_snags_total","Soft snags",3,"Positive",NA,NA
